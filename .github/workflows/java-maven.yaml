@@ -30,6 +30,7 @@ jobs:
       
   # Downloads the artifact from a previous job and packages it into an image, then run the image.  
   build-docker:
+    needs: build-maven
     runs-on: ubuntu-latest
     steps:
     - name: Download artifact
