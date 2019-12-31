@@ -1,4 +1,5 @@
 ![](https://github.com/leynebe/starters/workflows/.github/workflows/java-maven.yaml/badge.svg?branch=master)
+![](https://github.com/leynebe/starters/workflows/.github/workflows/python-echo.yaml/badge.svg?branch=master)
 
 # starters
 
