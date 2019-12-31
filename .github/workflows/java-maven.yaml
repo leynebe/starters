@@ -5,8 +5,8 @@ on:
     branches:
     - master
     paths:
-    - '.github/*'
-    - 'java/maven/*'
+    - '.github/**'
+    - 'java/maven/**'
 
 jobs:
   build:
