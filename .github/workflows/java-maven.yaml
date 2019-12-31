@@ -1,4 +1,4 @@
-name: Build and deploy the java/maven/my-app folder
+name: Build and Deploy java/maven/my-app
 
 on:
   push:
@@ -11,6 +11,8 @@ on:
 jobs:
   # Checks out code, builds the project and uploads the artifact for use in another job.
   build-maven:
+    env:
+      BUILD_PATH: 'java/maven/my-app'
     runs-on: ubuntu-latest
     container:
       image: maven:3.6.3-jdk-8
@@ -18,14 +20,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Build maven
-      working-directory: 'java/maven/my-app'
+      working-directory: $BUILD_PATH
       run: mvn package
     - name: Upload artifact
-      working-directory: 'java/maven/my-app'
       uses: actions/upload-artifact@v1
       with:
         name: jar
-        path: target/*.jar
+        path: $BUILD_PATH/target/*.jar
       
   # Downloads the artifact from a previous job and packages it into an image, then run the image.  
   build-docker:
