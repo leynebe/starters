@@ -9,19 +9,17 @@ on:
     - 'java/maven/**'
 
 jobs:
-  build-maven:
+  1-build-maven:
 
     runs-on: ubuntu-latest
 
     container:
       image: maven:3.6.3-jdk-8
-      volumes:
-      - ./
 
     steps:
       
-    # - name: Checkout code
-    #   uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Build maven
       working-directory: 'java/maven'
@@ -33,7 +31,7 @@ jobs:
         name: jar
         path: target/*.jar
         
-  build-docker:
+  2-build-docker:
     
     runs-on: ubuntu-latest
     
