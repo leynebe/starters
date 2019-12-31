@@ -22,17 +22,22 @@ jobs:
     - name: Build maven
       working-directory: ${{ env.BUILD_PATH }}
       run: mvn package
+    - name: Rename artifact
+      working-directory: ${{ env.BUILD_PATH }}/target
+      run: mv *.jar app.jar
+    # Uploading wildcards will be possible once a v2 of the download and upload-artifact actions comes out, see: https://github.com/actions/upload-artifact/issues/7
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
         name: jar
-        path: ${{ env.BUILD_PATH }}/target/*.jar
+        path: ${{ env.BUILD_PATH }}/target/app.jar
       
   # Downloads the artifact from a previous job and packages it into an image, then run the image.  
   build-docker:
     needs: build-maven
     runs-on: ubuntu-latest
     steps:
+    # Uploading wildcards will be possible once a v2 of the download and upload-artifact actions comes out, see: https://github.com/actions/upload-artifact/issues/7
     - name: Download artifact
       uses: actions/download-artifact@v1
       with:
