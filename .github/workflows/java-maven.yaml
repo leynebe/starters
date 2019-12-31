@@ -8,16 +8,17 @@ on:
     - '.github/**'
     - 'java/maven/**'
 
+env:
+  BUILD_PATH: 'java/maven/my-app'
+
 jobs:
   # Checks out code, builds the project and uploads the artifact for use in another job.
   build-maven:
-    env:
-      BUILD_PATH: 'java/maven/my-app'
     runs-on: ubuntu-latest
     container:
       image: maven:3.6.3-jdk-8
     steps:
-    - name: Checkout code
+    - name: Checkout code for the maven project
       uses: actions/checkout@v2
     - name: Build maven
       working-directory: ${{ env.BUILD_PATH }}
@@ -37,12 +38,15 @@ jobs:
     needs: build-maven
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout code for the dockerfile
+      uses: actions/checkout@v2
     # Uploading wildcards will be possible once a v2 of the download and upload-artifact actions comes out, see: https://github.com/actions/upload-artifact/issues/7
     - name: Download artifact
       uses: actions/download-artifact@v1
       with:
         name: jar
     - name: Build docker
+      working-directory: ${{ env.BUILD_PATH }}
       run: docker build -t my-app:latest .
     - name: Deploy
       run: docker run my-app:latest
