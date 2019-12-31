@@ -1,0 +1,27 @@
+name: Build and deploy the java/maven folder
+
+on:
+  push:
+    branches:
+    - master
+    paths:
+    - 'java/maven/*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      
+    - name: Build maven
+      working-directory: 'java/maven'
+      run: mvn package
+      
+    - name: Build docker
+      run: docker build my-app:latest
+      
+    - name: Deploy
+      run: docker run my-app:latest
+      
+        
