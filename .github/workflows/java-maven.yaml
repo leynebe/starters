@@ -9,42 +9,33 @@ on:
     - 'java/maven/**'
 
 jobs:
-  1-build-maven:
-
+  # Checks out code, builds the project and uploads the artifact for use in another job.
+  build-maven:
     runs-on: ubuntu-latest
-
     container:
       image: maven:3.6.3-jdk-8
-
     steps:
-      
     - name: Checkout code
       uses: actions/checkout@v2
-
     - name: Build maven
       working-directory: 'java/maven'
       run: mvn package
-      
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
         name: jar
         path: target/*.jar
-        
-  2-build-docker:
-    
-    runs-on: ubuntu-latest
-    
-    steps:
       
+  # Downloads the artifact from a previous job and packages it into an image, then run the image.  
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
     - name: Download artifact
       uses: actions/download-artifact@v1
       with:
         name: jar
-    
     - name: Build docker
       run: docker build -t my-app:latest .
-      
     - name: Deploy
       run: docker run my-app:latest
       
