@@ -20,13 +20,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Build maven
-      working-directory: $BUILD_PATH
+      working-directory: ${{ env.BUILD_PATH }}
       run: mvn package
     - name: Upload artifact
       uses: actions/upload-artifact@v1
       with:
         name: jar
-        path: $BUILD_PATH/target/*.jar
+        path: ${{ env.BUILD_PATH }}/target/*.jar
       
   # Downloads the artifact from a previous job and packages it into an image, then run the image.  
   build-docker:
