@@ -1,4 +1,4 @@
-name: Build and deploy the java/maven folder
+name: Build and deploy the java/maven/my-app folder
 
 on:
   push:
@@ -17,14 +17,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: debug
-      run: |
-        pwd
-        ls -la
     - name: Build maven
-      working-directory: 'java/maven'
+      working-directory: 'java/maven/my-app'
       run: mvn package
     - name: Upload artifact
+      working-directory: 'java/maven/my-app'
       uses: actions/upload-artifact@v1
       with:
         name: jar
