@@ -46,8 +46,6 @@ jobs:
       with:
         name: jar
         path: ${{ env.BUILD_PATH }}/target
-    - name: debug
-      run: ls -la  ${{ env.BUILD_PATH }}/target 
     - name: Build docker
       working-directory: ${{ env.BUILD_PATH }}
       run: docker build -t my-app:latest .
