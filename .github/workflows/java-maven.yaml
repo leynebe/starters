@@ -9,35 +9,43 @@ on:
     - 'java/maven/**'
 
 jobs:
-  build:
+  build-maven:
 
     runs-on: ubuntu-latest
 
     container:
       image: maven:3.6.3-jdk-8
-      # volumes:
-      #   - ./
-      # pls
+      volume:
+      - ./
 
     steps:
       
-    - name: Checkout code
-      uses: actions/checkout@v2.0.0
+    # - name: Checkout code
+    #   uses: actions/checkout@v2
 
-    - name: debug
-      run: |
-        pwd
-        ls -la 
-        
     - name: Build maven
       working-directory: 'java/maven'
-      run: |
-        pwd
-        ls -la 
-      # run: mvn package
+      run: mvn package
       
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: jar
+        path: target/*.jar
+        
+  build-docker:
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      
+    - name: Download artifact
+      uses: actions/download-artifact@v1
+      with:
+        name: jar
+    
     - name: Build docker
-      run: docker build my-app:latest
+      run: docker build -t my-app:latest .
       
     - name: Deploy
       run: docker run my-app:latest
