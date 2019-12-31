@@ -1,4 +1,4 @@
-name: Build python/echo
+name: Build python/print
 
 on:
   push:
@@ -6,10 +6,10 @@ on:
     - master
     paths:
     - '.github/**'
-    - 'python/echo/**'
+    - 'python/print/**'
 
 env:
-  BUILD_PATH: 'python/echo'
+  BUILD_PATH: 'python/print'
 
 jobs:
   # Packages file into an image, then runs the image.  
